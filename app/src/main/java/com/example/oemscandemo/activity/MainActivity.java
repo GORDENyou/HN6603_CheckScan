@@ -1,9 +1,18 @@
 package com.example.oemscandemo.activity;
 
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.hardware.ScanDevice;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.Vibrator;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -19,7 +28,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends Activity {
     @BindView(R.id.header)
     HeaderTitle headerTitle;
     @BindView(R.id.barcode_zhijia)
@@ -39,23 +48,46 @@ public class MainActivity extends BaseActivity {
 
     SaveToExcelUtil util;
 
+    private ScanDevice mScanDevice;
+    private MediaPlayer mmediaplayer;
+    private Vibrator mvibrator;
+    private EditText showScanResult;
+
+    int Scantime = 0;
+
+    private BroadcastReceiver mScanDataReceiver = new BroadcastReceiver() {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            // TODO Auto-generated method stub
+            String action = intent.getAction();
+            if (action != null && action.equals("ACTION_BAR_SCAN")) {
+                String str = intent.getStringExtra("EXTRA_SCAN_DATA");
+                if (str != null) {
+                    mmediaplayer.start();
+                    mvibrator.vibrate(50);
+                }
+                View rootview = MainActivity.this.getWindow().getDecorView();
+                View focus = rootview.findFocus();
+                if (focus != null) {
+                    ((EditText) focus).setText(str);
+                }
+                ScanEvent();
+            }
+        }
+    };
+
     @Override
-    public void initViews(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         //SavefiletoCSV.open();
         String excelPath = SaveToExcelUtil.getExcelDir() + File.separator + "核对记录.xls";
         util = new SaveToExcelUtil(MainActivity.this, excelPath);
-    }
 
-    @Override
-    public void initValues() {
 
-    }
-
-    @Override
-    public void LogicMethod() {
-        SetFocus(barcode_zhijia);
+        SetFocus(shezhi.getEditTextView());
         headerTitle.getRightbutton().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -67,9 +99,51 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 SetScantime(Integer.parseInt(shezhi.getText()));
+                new AlertDialog.Builder(MainActivity.this).setTitle("提示").setMessage("扫描间隔成功设置为" + shezhi.getText() +
+                        "毫秒！").setPositiveButton("确定", null).show();
+                InputMethodManager imm = (InputMethodManager) view.getContext()
+                        .getSystemService(Context.INPUT_METHOD_SERVICE);
+                if (imm != null) {
+                    imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                }
+//                Toast.makeText(MainActivity.this, "扫描间隔成功设置为" + shezhi.getText() +
+//                        "毫秒！", Toast.LENGTH_SHORT).show();
+                SetFocus(barcode_zhijia);
             }
         });
     }
+
+    public void SetScantime(int scantime) {
+        Scantime = scantime;
+        mScanDevice.TimeScan(scantime);
+    }
+
+    // 监听扫描键
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+
+        switch (keyCode) {
+            case KeyEvent.KEYCODE_INFO:
+                // scanning
+                if (Scantime == 0) {
+                    new AlertDialog.Builder(MainActivity.this).setTitle("提示").setMessage("请先设置扫描头读取时间间隔！").setPositiveButton("确定", null).show();
+                } else {
+                    if (event.getRepeatCount() == 0) {
+                        //		mScannerH.openScan();
+                        mScanDevice.ContinousStart();
+                        //SetScantime(1500);
+                    }
+                }
+                return true;
+            case 4:
+//                finish();
+//                unregisterReceiver(mScanDataReceiver);
+                return true;
+        }
+
+        return super.onKeyDown(keyCode, event);
+    }
+
 
     private void SetFocus(EditText editText) {
         editText.setFocusable(true);
@@ -77,7 +151,7 @@ public class MainActivity extends BaseActivity {
         editText.requestFocus();
     }
 
-    @Override
+
     protected void ScanEvent() {
         if (barcode_zhijia.isFocused() && barcode_system.getText().toString().equals("")) {
             SetFocus(barcode_system);
@@ -85,7 +159,7 @@ public class MainActivity extends BaseActivity {
         if (barcode_system.isFocused() && barcode_zhijia.getText().toString().equals("")) {
             SetFocus(barcode_zhijia);
         }
-        if((!barcode_zhijia.getText().toString().equals("")) && (!barcode_system.getText().toString().equals(""))){
+        if ((!barcode_zhijia.getText().toString().equals("")) && (!barcode_system.getText().toString().equals(""))) {
             SaveData();
         }
     }
@@ -112,4 +186,47 @@ public class MainActivity extends BaseActivity {
         barcode_zhijia.setText("");
         SetFocus(barcode_zhijia);
     }
+
+    //注销数据广播
+    @Override
+    protected void onPause() {
+        // TODO Auto-generated method stub
+        super.onPause();
+        if (mScanDevice != null) {
+            mScanDevice.stopScan();
+        }
+        try {
+//            unregisterReceiver(mScanDataReceiver);
+        } catch (Exception e) {
+
+        }
+        mmediaplayer.release();
+
+    }
+
+    //注册数据广播
+    @Override
+    protected void onResume() {
+        // TODO Auto-generated method stub
+
+        mScanDevice = new ScanDevice(this);  //初始化接口
+
+        IntentFilter scanDataIntentFilter = new IntentFilter();
+        scanDataIntentFilter.addAction("ACTION_BAR_SCAN");
+        registerReceiver(mScanDataReceiver, scanDataIntentFilter);
+
+        mvibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE); //震动
+        mmediaplayer = new MediaPlayer(); //初始化声音
+        mmediaplayer = MediaPlayer.create(this, R.raw.scanoknew);
+        mmediaplayer.setLooping(false);
+
+//        mScanDevice.ContinousStart();
+//        if(Scantime != 0){
+//            mScanDevice.TimeScan(Scantime);
+//        }else {
+//            mScanDevice.TimeScan(1500);
+//        }
+        super.onResume();
+    }
+
 }

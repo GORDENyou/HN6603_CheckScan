@@ -22,8 +22,8 @@
         android:layout_marginTop="16dp"
         app:scannerbuttonname="设置"
         android:layout_below="@id/header"
-        app:scannerhint="默认为1500毫秒"
-        app:scannertitle="扫描读取时间间隔(单位：毫秒)"/>
+        app:scannerhint="如：1500毫秒"
+        app:scannertitle="扫描读取时间间隔"/>
 
     <!--<p.gordenyou.hn6603_checkscan.view.EdittextView-->
     <!--android:id="@+id/barcode_product"-->
