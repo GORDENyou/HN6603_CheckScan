@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <p.gordenyou.hn6603_checkscan.view.HeaderTitle
+    <com.example.oemscandemo.view.HeaderTitle
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:headertitle="联系方式" />

@@ -1,4 +1,4 @@
-package p.gordenyou.hn6603_checkscan.activity;
+package com.example.oemscandemo.activity;
 
 import android.app.Activity;
 import android.content.BroadcastReceiver;
@@ -14,7 +14,8 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
 
-import p.gordenyou.hn6603_checkscan.R;
+import com.example.oemscandemo.R;
+
 
 public abstract class BaseActivity extends Activity {
 
@@ -92,6 +93,8 @@ public abstract class BaseActivity extends Activity {
                 // scanning
                 if (event.getRepeatCount() == 0) {
                     //		mScannerH.openScan();
+                    mScanDevice.openScan();
+                    SetScantime(1500);
                     mScanDevice.ContinousStart();
                     mScanDevice.startScan();
                 }
@@ -106,9 +109,12 @@ public abstract class BaseActivity extends Activity {
     protected void onPause() {
         // TODO Auto-generated method stub
         super.onPause();
+        if (mScanDevice != null) {
+            mScanDevice.stopScan();
+        }
         unregisterReceiver(mScanDataReceiver);
         mmediaplayer.release();
-        mScanDevice.stopScan();
+
     }
 
     //注册数据广播
@@ -116,7 +122,7 @@ public abstract class BaseActivity extends Activity {
     protected void onResume() {
         // TODO Auto-generated method stub
 
-        mScanDevice = new ScanDevice(getBaseContext());  //初始化接口
+        mScanDevice = new ScanDevice(this);  //初始化接口
 
         IntentFilter scanDataIntentFilter = new IntentFilter();
         scanDataIntentFilter.addAction("ACTION_BAR_SCAN");

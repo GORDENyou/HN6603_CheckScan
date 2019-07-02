@@ -1,4 +1,4 @@
-package p.gordenyou.hn6603_checkscan.common;
+package com.example.oemscandemo.common;
 
 import android.app.Activity;
 import android.os.Environment;

@@ -1,4 +1,4 @@
-package p.gordenyou.hn6603_checkscan.adapter;
+package com.example.oemscandemo.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -6,7 +6,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import p.gordenyou.hn6603_checkscan.R;
+import com.example.oemscandemo.R;
 
 /**
  * Created by GORDENyou on 2019/6/29.

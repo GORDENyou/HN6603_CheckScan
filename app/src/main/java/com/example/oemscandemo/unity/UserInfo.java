@@ -1,4 +1,4 @@
-package p.gordenyou.hn6603_checkscan.unity;
+package com.example.oemscandemo.unity;
 
 /**
  * Created by Gordenyou on 2018/3/30.

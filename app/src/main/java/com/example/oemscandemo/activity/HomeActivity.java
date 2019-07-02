@@ -1,4 +1,4 @@
-package p.gordenyou.hn6603_checkscan.activity;
+package com.example.oemscandemo.activity;
 
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -10,12 +10,14 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
+import com.example.oemscandemo.R;
+import com.example.oemscandemo.adapter.FragmentAdapter;
+import com.example.oemscandemo.fragment.MainFragment;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import p.gordenyou.hn6603_checkscan.R;
-import p.gordenyou.hn6603_checkscan.adapter.FragmentAdapter;
-import p.gordenyou.hn6603_checkscan.fragment.MainFragment;
+
 
 
 public class HomeActivity extends AppCompatActivity {

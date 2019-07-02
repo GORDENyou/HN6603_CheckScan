@@ -1,4 +1,4 @@
-package p.gordenyou.hn6603_checkscan.activity;
+package com.example.oemscandemo.activity;
 
 import android.content.Intent;
 import android.media.MediaPlayer;
@@ -8,14 +8,16 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.example.oemscandemo.R;
+import com.example.oemscandemo.common.SaveToExcelUtil;
+import com.example.oemscandemo.view.HeaderTitle;
+import com.example.oemscandemo.view.ScannerView;
+
 import java.io.File;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import p.gordenyou.hn6603_checkscan.R;
-import p.gordenyou.hn6603_checkscan.common.SaveToExcelUtil;
-import p.gordenyou.hn6603_checkscan.view.HeaderTitle;
-import p.gordenyou.hn6603_checkscan.view.ScannerView;
+
 
 public class MainActivity extends BaseActivity {
     @BindView(R.id.header)
@@ -53,7 +55,6 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public void LogicMethod() {
-        SetScantime(1500);
         SetFocus(barcode_zhijia);
         headerTitle.getRightbutton().setOnClickListener(new View.OnClickListener() {
             @Override

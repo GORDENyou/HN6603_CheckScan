@@ -1,10 +1,13 @@
-package p.gordenyou.hn6603_checkscan.activity;
+package com.example.oemscandemo.activity;
 
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+
+import com.example.oemscandemo.R;
+import com.example.oemscandemo.common.SaveToExcelUtil;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -17,8 +20,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import jxl.Sheet;
 import jxl.Workbook;
-import p.gordenyou.hn6603_checkscan.R;
-import p.gordenyou.hn6603_checkscan.common.SaveToExcelUtil;
 
 /**
  * Created by GORDENyou on 2019/6/29.

@@ -1,8 +1,9 @@
-package p.gordenyou.hn6603_checkscan.activity;
+package com.example.oemscandemo.activity;
 
 import android.os.Bundle;
 
-import p.gordenyou.hn6603_checkscan.R;
+import com.example.oemscandemo.R;
+
 
 /**
  * Created by GORDENyou on 2019/6/28.

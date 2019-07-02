@@ -1,4 +1,4 @@
-package p.gordenyou.hn6603_checkscan.fragment;
+package com.example.oemscandemo.fragment;
 
 
 import android.content.Intent;
@@ -14,18 +14,20 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.SimpleAdapter;
 
+import com.example.oemscandemo.R;
+import com.example.oemscandemo.activity.MainActivity;
+import com.example.oemscandemo.activity.ReadExcelActivity;
+import com.example.oemscandemo.unity.FunList;
+import com.example.oemscandemo.unity.SystemUser;
+import com.example.oemscandemo.unity.UserInfo;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import butterknife.ButterKnife;
-import p.gordenyou.hn6603_checkscan.R;
-import p.gordenyou.hn6603_checkscan.activity.MainActivity;
-import p.gordenyou.hn6603_checkscan.activity.ReadExcelActivity;
-import p.gordenyou.hn6603_checkscan.unity.FunList;
-import p.gordenyou.hn6603_checkscan.unity.SystemUser;
-import p.gordenyou.hn6603_checkscan.unity.UserInfo;
+
 
 
 public class MainFragment extends Fragment {

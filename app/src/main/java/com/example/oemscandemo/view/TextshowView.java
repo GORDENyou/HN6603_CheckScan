@@ -1,4 +1,4 @@
-package p.gordenyou.hn6603_checkscan.view;
+package com.example.oemscandemo.view;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -9,9 +9,10 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.oemscandemo.R;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import p.gordenyou.hn6603_checkscan.R;
 
 /**
  * Created by Gordenyou on 2018/3/8.

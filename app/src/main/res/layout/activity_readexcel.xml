@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
-    <p.gordenyou.hn6603_checkscan.view.HeaderTitle
+    <com.example.oemscandemo.view.HeaderTitle
         android:layout_width="match_parent"
         app:headertitle="核对历史"
         android:layout_height="wrap_content"/>

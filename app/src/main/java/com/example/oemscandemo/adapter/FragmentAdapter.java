@@ -1,4 +1,4 @@
-package p.gordenyou.hn6603_checkscan.adapter;
+package com.example.oemscandemo.adapter;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
