@@ -136,7 +136,8 @@ public class MainActivity extends Activity {
                 }
                 return true;
             case 4:
-//                finish();
+                mScanDevice.ContinousStop();
+                finish();
 //                unregisterReceiver(mScanDataReceiver);
                 return true;
         }
@@ -194,9 +195,10 @@ public class MainActivity extends Activity {
         super.onPause();
         if (mScanDevice != null) {
             mScanDevice.stopScan();
+            mScanDevice.ContinousStop();
         }
         try {
-//            unregisterReceiver(mScanDataReceiver);
+            unregisterReceiver(mScanDataReceiver);
         } catch (Exception e) {
 
         }
@@ -208,8 +210,10 @@ public class MainActivity extends Activity {
     @Override
     protected void onResume() {
         // TODO Auto-generated method stub
+        if(mScanDevice == null){
+            mScanDevice = new ScanDevice(this);  //初始化接口
+        }
 
-        mScanDevice = new ScanDevice(this);  //初始化接口
 
         IntentFilter scanDataIntentFilter = new IntentFilter();
         scanDataIntentFilter.addAction("ACTION_BAR_SCAN");
